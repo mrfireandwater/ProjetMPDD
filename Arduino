@@ -1,65 +1,47 @@
-/*
-  Analog input, analog output, serial output
-
-  Reads an analog input pin, maps the result to a range from 0 to 255 and uses
-  the result to set the pulse width modulation (PWM) of an output pin.
-  Also prints the results to the Serial Monitor.
-
-  The circuit:
-  - potentiometer connected to analog pin 0.
-    Center pin of the potentiometer goes to the analog pin.
-    side pins of the potentiometer go to +5V and ground
-  - LED connected from digital pin 9 to ground through 220 ohm resistor
-
-  created 29 Dec. 2008
-  modified 9 Apr 2012
-  by Tom Igoe
-
-  This example code is in the public domain.
-
-  https://www.arduino.cc/en/Tutorial/BuiltInExamples/AnalogInOutSerial
-*/
 #include <Servo.h>
 
-// These constants won't change. They're used to give names to the pins used:
 const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
 const int servo1 = 9;
 
-Servo monServomoteur;
+Servo myservo;
 
-int sensorValue = 0;        // value read from the pot
-int servoValue = 0;
+int sensorValue = 0;
 int pos1=30;
 int pos2=100;
-int test=0;
 
 void setup() {
-  // initialize serial communications at 9600 bps:
-  Serial.begin(9600);
-  monServomoteur.attach(9);
+  Serial.begin(9600);   // initialize serial communications at 9600 bps:
+  myservo.attach(9);    // attaches the servo on pin 9 to the servo object 
 }
 
 void loop() {
-  // read the analog in value:
-  sensorValue = analogRead(analogInPin); 
+  
+  sensorValue = analogRead(analogInPin);    // read the analog in value
   test=sensorValue;
-  // print the results to the Serial Monitor:
-  Serial.print("sensor = ");
+  
+  Serial.print("sensor = ");                // print the results to the Serial Monitor
   Serial.println(sensorValue);
 
   if(test<600){
-    monServomoteur.write(pos1);
+      for (pos = 0; pos <= 60; pos += 1) { // goes from 0 degrees to 60 degrees // in steps of 1 degree
+      myservo.write(pos);                  // tell servo to go to position in variable 'pos'
+      delay(15);                           // waits 15 ms for the servo to reach the position
+    }
+    //myservo.write(pos1);
     Serial.println("humide");
     delay(100);
   }
   else{
-    monServomoteur.write(pos2);
+    //myservo.write(pos2);
+    
+    for (pos = 60; pos <= 180; pos += 1) { // goes from 180 degrees to 0 degrees
+      myservo.write(pos2);                // tell servo to go to position in variable 'pos'
+      delay(15);                         // waits 15 ms for the servo to reach the position
+    }
     Serial.println("sec");
     delay(100);
   }
   
+  //delay(200);             // wait 200 milliseconds before the next loop for the analog-to-digital
 
-  // wait 2 milliseconds before the next loop for the analog-to-digital
-  // converter to settle after the last reading:
-  delay(200);
 }
