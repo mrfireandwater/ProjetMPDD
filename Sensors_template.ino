@@ -1,6 +1,6 @@
 #include <Servo.h>
 
-Servo servo1;     //Weight visor (inner visor)
+Servo servo1;     //Wight visor (inner visor)
 Servo servo2;     //Sun visor (outer visor)
 
 const int analogRain = A0;    //Analog in pin of rain sensor  
@@ -12,15 +12,13 @@ int rainValue, distValue, speedValue, lightValue;      //Value of the different 
 int rainLimit, distLimit, speedLimit, lightLimit;      //Limit of the different sensors
 
 int openPos=60;         //Open visor position
-int closePos=180;       //Closed visor position
+int closePos;          //Closed visor position
 
-int pos;
+int r ;         //Rayon de la courbe des lunettes   
 
 void setup() {
   servo1.attach(9);     // attaches the servo1 on pin 9 to the servo object 
-  servo1 object
   servo2.attach(10);    // attaches the servo2 on pin 10 to the servo object 
-  servo2 object
   Serial.begin(9600);   // initialize serial communications at 9600 bps:
 }
 
@@ -31,19 +29,20 @@ void loop() {
   speedValue = // TODO;
   lightValue = //TODO;
 
-  rainLimit = 600;      //<600:RAIN, >600:NO RAIN
-  distLimit = //TODO;
+  rainLimit = 600;       //<600:RAIN, >600:NO RAIN
   speedLimit = //TODO;   //>lightlimit:WIND, <lightLimit<NO WIND
   lightLimit = //TODO;   //>lightlimit:SUN, <lightLimit<NO SUN
 
+  closePos = openPos + distValue*360/(2*M_PI*r);
+
   //Rain+Sun+Wind or Rain+Sun or Wind+Sun
-  if(rainValue<rainLimit && (lightValue>lightLimit || speedValue>speedLimit){
+  if(rainValue<rainLimit && (lightValue>lightLimit || speedValue>speedLimit)){
     servo1.write(closePos);
     servo2.write(closePos);
     delay(100);
   }
   //No Sun: Rain+Wind or Rain or Wind
-  if(lightValue<lightLimit && (lightValue>lightLimit || speedValue>speedLimit){
+  if(lightValue<lightLimit && (lightValue>lightLimit || speedValue>speedLimit)){
     servo1.write(closePos);
     servo2.write(openPos);
     delay(100);
