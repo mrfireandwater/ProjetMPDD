@@ -14,7 +14,7 @@ int rainLimit, distLimit, speedLimit, lightLimit;      //Limit of the different 
 int openPos=60;     //TODO    //Open visor position
 int closePos;                 //Closed visor position
 
-int r ;         //Rayon de la courbe des lunettes   
+int r ;         //TODO: rayon de la courbe des lunettes   
 
 void setup() {
   servo1.attach(9);     //TODO: mettre la bonne pin    // attaches the servo1 on pin 9 to the servo object 
