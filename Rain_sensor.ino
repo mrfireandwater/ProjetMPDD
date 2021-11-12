@@ -9,6 +9,8 @@ int rainValue;      //Value of the rain sensor
 int pos1=10;         //Open visor position
 int pos2=100;        //Closed visor position
 
+int pos = 0;
+
 void setup() {
   servo1.attach(9);    // attaches the servo1 on pin 9 to the servo object 
   Serial.begin(9600);   // initialize serial communications at 9600 bps:
@@ -21,15 +23,15 @@ void loop() {
   Serial.print("sensor = ");              
   Serial.println(rainValue);
 
-  if(rainValue<600){
+  if (rainValue<600){
     servo1.write(pos1);
-    Serial.println("humide");
-    delay(100);
+    for (pos = pos1; pos <= pos2; pos += 1) { 
+      servo1.write(pos);
+      delay(20);
+    }
   }
-  else{
+  else if (rainValue>600){
     servo1.write(pos2);
-    Serial.println("sec");
-    delay(100);
   }
 
   int servoAngle = servo1.read();
